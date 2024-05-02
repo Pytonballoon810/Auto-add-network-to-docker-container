@@ -27,7 +27,7 @@ import json
 import urllib3
 import time
 
-print("\033[96mRunning script at " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + "\033[0m")
+print("\033[96mRunning script on " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + "\033[0m at \033[96m" + os.path.dirname(os.path.abspath(__file__)) + "\033[0m")
 
 # Define all environment variables at the top
 try:

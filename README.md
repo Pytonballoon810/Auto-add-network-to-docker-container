@@ -25,10 +25,30 @@ Here's a Markdown table of all the environment variables used in the script and 
 
 | Environment Variable | Purpose | Default Value |
 | --- | --- | --- |
-| `CONTAINER_NAME` | The name of the container that the script is interacting with. | N/A |
+| `CONTAINER_NAME` | The name of the container that the script is interacting with. Remember to put a `/` in front of the name! | N/A |
 | `PORTAINER_PAT` | The Personal Access Token (PAT) for Portainer, used for authentication. | N/A |
-| `PORTAINER_URL` | The URL of the Portainer API that the script is interacting with. | N/A |
+| `PORTAINER_URL` | The URL of the Portainer API that the script is interacting with. Make sure to remove the last `/` of the URL! | N/A |
 | `INSTANCE_ID` | The ID of the instance in Portainer that the script is interacting with. | N/A |
-| `NETWORK_NAME` | The name of the network that the script is checking or adding to the container. | N/A |
+| `NETWORK_NAME` | The name of the network that the script is checking or adding to the container. Make sure to spell the network correctly as it wont throw an error if you misspell it | N/A |
 | `SAVE_RESPONSE` | A boolean indicating whether the response from the Portainer API should be saved to a file. | `"False"` |
-| `OUT_FILE_NAME` | The name of the file where the response from the Portainer API is saved if `SAVE_RESPONSE` is `True`. | `"_container_data.json"` |
+| `OUT_FILE_NAME` | The name of the file where the response from the Portainer API is saved if `SAVE_RESPONSE` is `True`. Remember to put `.json` as a file ending! | `"_container_data.json"` |
+
+## Example Docker Compose File
+```yaml
+version: "3.3"
+services:
+  homepage:
+    image: pytonballoon810/auto-add-network-to-docker-container:latest
+    container_name: auto-add-network-to-docker-container
+    environment:
+      PUID: 1000 # for security reasons create a user with a different id than root and use that id here (would recommend creating a new user for every service as it is goot practice)
+      PGID: 1000
+      CONTAINER_NAME: "/your-container-name-to-add-network-to"
+      NETWORK_NAME: "the-network-name-you-want-to-add"
+      SAVE_RESPONSE: "False"
+      # OUT_FILE_NAME: "_container_data" # optional as it will be set by default and wont be used if SAVE_RESPONSE is set to False
+      INSTANCE_ID: "2" # the id of your instance in portainer i.e.: https://local.ip:port/#!/2/docker/stacks
+      PORTAINER_URL: "https://local.ip:port"                                                 ^-- this one
+      PORTAINER_PAT: "ptr_your-personal-access-token-for-portainer"
+    restart: unless-stopped
+```
