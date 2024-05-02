@@ -1,3 +1,26 @@
+"""
+This script is used to interact with the Portainer API to manage Docker containers. 
+
+It fetches the details of a specific Docker container, checks the networks that the container is connected to, and connects the container to a specific network if it's not already connected.
+
+Environment Variables:
+- CONTAINER_NAME: The name of the Docker container to manage.
+- PORTAINER_PAT: The Personal Access Token for the Portainer API.
+- PORTAINER_URL: The URL of the Portainer API.
+- INSTANCE_ID: The ID of the Portainer instance to interact with.
+- NETWORK_NAME: The name of the network to connect the container to.
+- SAVE_RESPONSE: Whether to save the API response to a file (True/False).
+- OUT_FILE_NAME: The name of the file to save the API response to.
+
+The script can run in two modes:
+- Local mode: If a .env file is found in the same directory, the script will load environment variables from this file.
+- Container mode: If no .env file is found, the script will load environment variables from the system environment.
+
+In both modes, if a required environment variable is missing, the script will exit with an error message. If an optional environment variable is missing, the script will continue running with a default value.
+
+The script prints the status of each operation to the console, and optionally saves the API response to a file.
+"""
+
 import os
 import requests
 import json
@@ -16,9 +39,10 @@ try:
     SAVE_RESPONSE = (os.environ["SAVE_RESPONSE"] == "True")
     OUT_FILE_NAME = os.environ["OUT_FILE_NAME"]
 except KeyError as e:
-    print(e)
+    # Check if the missing environment variable is required or not
     if e.args[0] in ['OUT_FILE_NAME', 'INSTANCE_ID', 'SAVE_RESPONSE']:
         print("\033[38;5;208m" + "Warning:" + "\033[0m " + f"Missing environment variable: {e}")
+        # Set default values for optional variables
         if e.args[0] == 'OUT_FILE_NAME':
             OUT_FILE_NAME = "_container_data.json"
             print(f"Since this variable is not required, the script will continue without it. Defaulting to str:_container_data.json")
@@ -29,11 +53,13 @@ except KeyError as e:
             SAVE_RESPONSE = False
             print(f"Since this variable is not required, the script will continue without it. Defaulting to bool:False")
     else:
+        # Exit if required environment variable is missing
         print("\033[91m" + "Error:" + "\033[0m " + f"Missing environment variable: {e}")
         print(f"Since {e} is required, the script will exit.")
         exit(1)
 try:
     if os.path.isfile(".env"):
+        # Check if .env file exists and load it
         print("\033[38;5;208mWarning:\033[0m Found .env file. \033[38;5;208mRunning in local mode.\033[0m")
         # Load .env file for testing
         from dotenv import load_dotenv
