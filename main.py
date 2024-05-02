@@ -7,17 +7,34 @@ import time
 print("\033[96mRunning script at " + time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + "\033[0m")
 
 # Define all environment variables at the top
-CONTAINER_NAME = os.environ["CONTAINER_NAME"]
-PORTAINER_PAT = os.environ["PORTAINER_PAT"]
-PORTAINER_URL = os.environ["PORTAINER_URL"]
-INSTANCE_ID = int(os.environ["INSTANCE_ID"])
-NETWORK_NAME = os.environ["NETWORK_NAME"]
-SAVE_RESPONSE = (os.environ["SAVE_RESPONSE"] == "True")
-OUT_FILE_NAME = os.environ["OUT_FILE_NAME"]
-
+try:
+    CONTAINER_NAME = os.environ["CONTAINER_NAME"]
+    PORTAINER_PAT = os.environ["PORTAINER_PAT"]
+    PORTAINER_URL = os.environ["PORTAINER_URL"]
+    INSTANCE_ID = int(os.environ["INSTANCE_ID"])
+    NETWORK_NAME = os.environ["NETWORK_NAME"]
+    SAVE_RESPONSE = (os.environ["SAVE_RESPONSE"] == "True")
+    OUT_FILE_NAME = os.environ["OUT_FILE_NAME"]
+except KeyError as e:
+    print(e)
+    if e.args[0] in ['OUT_FILE_NAME', 'INSTANCE_ID', 'SAVE_RESPONSE']:
+        print("\033[38;5;208m" + "Warning:" + "\033[0m " + f"Missing environment variable: {e}")
+        if e.args[0] == 'OUT_FILE_NAME':
+            OUT_FILE_NAME = "_container_data.json"
+            print(f"Since this variable is not required, the script will continue without it. Defaulting to str:_container_data.json")
+        if e.args[0] == 'INSTANCE_ID':
+            INSTANCE_ID = 1
+            print(f"Since this variable is not required, the script will continue without it. Defaulting to int:1")
+        if e.args[0] == 'SAVE_RESPONSE':
+            SAVE_RESPONSE = False
+            print(f"Since this variable is not required, the script will continue without it. Defaulting to bool:False")
+    else:
+        print("\033[91m" + "Error:" + "\033[0m " + f"Missing environment variable: {e}")
+        print(f"Since {e} is required, the script will exit.")
+        exit(1)
 try:
     if os.path.isfile(".env"):
-        print("\033[91mWarning:\033[0m Found .env file. \033[91mRunning in local mode.\033[0m")
+        print("\033[38;5;208mWarning:\033[0m Found .env file. \033[38;5;208mRunning in local mode.\033[0m")
         # Load .env file for testing
         from dotenv import load_dotenv
         load_dotenv()
