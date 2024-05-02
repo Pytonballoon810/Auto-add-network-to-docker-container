@@ -23,12 +23,12 @@ I would recommend creating a virtual environment for running this script locally
 Remember to set ``PUID`` and ``PGID`` for security reasons.  
 Here's a Markdown table of all the environment variables used in the script and their purposes:
 
-| Environment Variable | Purpose |
-| --- | --- |
-| `CONTAINER_NAME` | The name of the container that the script is interacting with. |
-| `PORTAINER_PAT` | The Personal Access Token (PAT) for Portainer, used for authentication. |
-| `PORTAINER_URL` | The URL of the Portainer API that the script is interacting with. |
-| `INSTANCE_ID` | The ID of the instance in Portainer that the script is interacting with. |
-| `NETWORK_NAME` | The name of the network that the script is checking or adding to the container. |
-| `SAVE_RESPONSE` | A boolean indicating whether the response from the Portainer API should be saved to a file. |
-| `OUT_FILE_NAME` | The name of the file where the response from the Portainer API is saved if `SAVE_RESPONSE` is `True`. |
+| Environment Variable | Purpose | Default Value |
+| --- | --- | --- |
+| `CONTAINER_NAME` | The name of the container that the script is interacting with. | N/A |
+| `PORTAINER_PAT` | The Personal Access Token (PAT) for Portainer, used for authentication. | N/A |
+| `PORTAINER_URL` | The URL of the Portainer API that the script is interacting with. | N/A |
+| `INSTANCE_ID` | The ID of the instance in Portainer that the script is interacting with. | N/A |
+| `NETWORK_NAME` | The name of the network that the script is checking or adding to the container. | N/A |
+| `SAVE_RESPONSE` | A boolean indicating whether the response from the Portainer API should be saved to a file. | `"False"` |
+| `OUT_FILE_NAME` | The name of the file where the response from the Portainer API is saved if `SAVE_RESPONSE` is `True`. | `"_container_data.json"` |
