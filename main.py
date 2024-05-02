@@ -32,8 +32,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 headers = {
     "X-API-Key": PORTAINER_PAT
 }
-print(f"Set Headers:")
-print(json.dumps(headers, indent=4))
+# print(f"Set Headers:")
+# print(json.dumps(headers, indent=4))
 
 response = requests.get(f"{PORTAINER_URL}/api/endpoints/{INSTANCE_ID}/docker/containers/json", headers=headers, verify=False)
 data = list(response.json())

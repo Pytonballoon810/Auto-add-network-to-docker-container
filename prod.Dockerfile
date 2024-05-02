@@ -24,4 +24,4 @@ COPY . .
 USER myuser:mygroup
 
 # Start the application
-CMD ["python", "main.py"]
+CMD while true; do python main.py; sleep 600; done
