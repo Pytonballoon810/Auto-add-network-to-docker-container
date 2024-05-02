@@ -45,7 +45,7 @@ services:
       PGID: 1000
       CONTAINER_NAME: "/your-container-name-to-add-network-to"
       NETWORK_NAME: "the-network-name-you-want-to-add"
-      SAVE_RESPONSE: "False"
+      SAVE_RESPONSE: "False" # Remember to mount the /app directory to a volume if you want to save the response
       # OUT_FILE_NAME: "_container_data" # optional as it will be set by default and wont be used if SAVE_RESPONSE is set to False
       INSTANCE_ID: "2" # the id of your instance in portainer i.e.: https://local.ip:port/#!/2/docker/stacks
       PORTAINER_URL: "https://local.ip:port"                                                 ^-- this one
