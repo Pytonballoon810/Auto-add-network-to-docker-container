@@ -40,6 +40,8 @@ services:
   homepage:
     image: pytonballoon810/auto-add-network-to-docker-container:latest
     container_name: auto-add-network-to-docker-container
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # mount this for the correct time for the logs
     environment:
       PUID: 1000 # for security reasons create a user with a different id than root and use that id here (would recommend creating a new user for every service as it is goot practice)
       PGID: 1000
