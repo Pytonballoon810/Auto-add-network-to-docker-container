@@ -28,7 +28,7 @@ Here's a Markdown table of all the environment variables used in the script and 
 | `CONTAINER_NAME` | The name of the container that the script is interacting with. Remember to put a `/` in front of the name! | N/A |
 | `PORTAINER_PAT` | The Personal Access Token (PAT) for Portainer, used for authentication. | N/A |
 | `PORTAINER_URL` | The URL of the Portainer API that the script is interacting with. Make sure to remove the last `/` of the URL! | N/A |
-| `INSTANCE_ID` | The ID of the instance in Portainer that the script is interacting with. | N/A |
+| `INSTANCE_ID` | The ID of the instance in Portainer that the script is interacting with. | 1 |
 | `NETWORK_NAME` | The name of the network that the script is checking or adding to the container. Make sure to spell the network correctly as it wont throw an error if you misspell it | N/A |
 | `SAVE_RESPONSE` | A boolean indicating whether the response from the Portainer API should be saved to a file. | `"False"` |
 | `OUT_FILE_NAME` | The name of the file where the response from the Portainer API is saved if `SAVE_RESPONSE` is `True`. Remember to put `.json` as a file ending! | `"_container_data.json"` |
