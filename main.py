@@ -83,7 +83,12 @@ data = list(response.json())
 print("Getting container data:")
 print(f"\t{response.status_code, response.text if response.status_code != 200 else "OK"}")
 
-container = list(filter(lambda x: x["Names"][0] == CONTAINER_NAME, data))[0]
+# Find the container by name
+container = filter(lambda x: x["Names"][0] == CONTAINER_NAME, data)
+if not container:
+    print(f"\033[91mContainer {CONTAINER_NAME.removeprefix('/')} not found.\033[0m \nExiting.")
+    exit(1)
+container = list(container)[0]
 networks = container["NetworkSettings"]["Networks"]
 networks =  [network for network in networks]
 print(f"\033[95m{len(networks)}\033[0m networks found for container: \033[95m{CONTAINER_NAME.removeprefix("/")}\033[0m: {", ".join(networks)}")
@@ -95,8 +100,9 @@ if NETWORK_NAME not in networks:
         "EndpointConfig": {}
     }
     connect_response = requests.post(f"{PORTAINER_URL}/api/endpoints/{INSTANCE_ID}/docker/networks/{NETWORK_NAME}/connect", headers=headers, json=connect_data, verify=False)
-    print(connect_response.status_code, connect_response.text)
-
+    print(f"\t{connect_response.status_code, connect_response.text if connect_response.status_code != 200 else "OK"}")
+else:
+    print(f"{NETWORK_NAME} found for container. \033[92mNo action needed.\033[0m")
 # Write the response to a JSON file
 if SAVE_RESPONSE:
     with open(OUT_FILE_NAME, 'w') as f:
